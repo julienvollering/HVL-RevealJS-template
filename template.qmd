@@ -7,21 +7,11 @@ date: today
 date-format: "D MMMM YYYY"
 
 format:
-  revealjs:
-    theme: hvl-theme.scss
-    slide-number: false
-    progress: true
-    hash: true
-    controls: false
-    transition: slide
-    transition-speed: fast
-    highlight-style: github
-    code-line-numbers: true
-    embed-resources: false   # set true for a self-contained HTML
+  hvl-revealjs: default
 
 title-slide-attributes:
   data-background-color: "#004357"
-  data-background-image: "hvl_logo_en_neg.png"
+  data-background-image: "_extensions/hvl/hvl_logo_en_neg.png"
   data-background-size: "180px"
   data-background-position: "top 1.5em right 1.5em"
 
@@ -262,7 +252,7 @@ This text only appears in speaker view (press **S**).
 
 ## {.dark-slide background-color="#004357"}
 
-![](hvl_logo_en_neg.png){height="55px"}
+![](/_extensions/hvl/hvl_logo_en_neg.png){height="55px"}
 
 ### Thank you
 
