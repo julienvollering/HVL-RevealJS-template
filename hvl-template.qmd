@@ -1,0 +1,318 @@
+---
+title: "Presentation Title"
+subtitle: "Subtitle · Course or event name"
+author: "Your Name"
+institute: "Western Norway University of Applied Sciences"
+date: today
+date-format: "D MMMM YYYY"
+
+format:
+  revealjs:
+    theme: hvl-theme.scss
+    slide-number: false
+    progress: true
+    hash: true
+    controls: false
+    transition: slide
+    transition-speed: fast
+    highlight-style: github
+    code-line-numbers: true
+    embed-resources: false   # set true for a self-contained HTML
+
+title-slide-attributes:
+  data-background-color: "#004357"
+  data-background-image: "hvl_logo_en_neg.png"
+  data-background-size: "180px"
+  data-background-position: "top 1.5em right 1.5em"
+
+execute:
+  echo: true
+  warning: false
+  message: false
+---
+
+## Agenda {.section-slide background-color="#00AFBA"}
+
+::: {.columns}
+::: {.column width="48%"}
+1. Background & motivation
+2. Research questions
+3. Methods
+:::
+::: {.column width="48%"}
+4. Key results
+5. Discussion
+6. Take-aways
+:::
+:::
+
+
+## Standard Content Slide
+
+::: {.ingress}
+An ingress sentence states the one thing this slide is about.
+:::
+
+- First key point with enough detail to be meaningful
+- Second point — **bold for emphasis**, *italics for nuance*
+- Third point — notice the serif body font echoes the HVL brand
+  - Sub-bullet with supporting detail
+
+::: {.fragment}
+::: {.fact-box}
+**Key takeaway** — use `.fact-box` to surface a single finding at the end of a slide.
+:::
+:::
+
+
+## Two-Column: Text + Text
+
+::: {.columns}
+::: {.column width="50%"}
+### Left heading
+
+Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+
+- Point one
+- Point two
+- Point three
+:::
+::: {.column width="50%"}
+### Right heading
+
+::: {.hvl-accent}
+Use `.hvl-accent` for a sea-green left-border accent — good for
+definitions, quotes, or key statements.
+:::
+
+Additional supporting text.
+:::
+:::
+
+
+## Two-Column: Text + Image
+
+::: {.columns}
+::: {.column width="52%"}
+### Finding or argument
+
+Pair a concise argument on the left with a supporting image on the right.
+
+- Relevant point A
+- Relevant point B
+- Relevant point C
+:::
+::: {.column width="48%"}
+![Replace with your image](https://placehold.co/560x400/C9D5DA/004357?text=Your+image){fig-alt="Placeholder"}
+:::
+:::
+
+
+## Three-Column: Statistics
+
+::: {.columns}
+::: {.column width="40%"}
+::: {.vcenter}
+[4 600+]{.big-number}
+[Students across five campuses]{.big-label}
+:::
+:::
+::: {.column width="35%"}
+::: {.vcenter}
+[70%]{.big-number}
+[Graduate employment rate]{.big-label}
+:::
+:::
+::: {.column width="25%"}
+::: {.vcenter}
+[38]{.big-number}
+[Research groups]{.big-label}
+:::
+:::
+:::
+
+::: {.small .muted}
+Source: HVL annual report 2024.
+:::
+
+
+## {background-image="https://placehold.co/1280x720/004357/00AFBA?text=Background+image" background-size="cover" background-opacity="0.55"}
+
+::: {.glass-box style="max-width:52%; margin-top:2em;"}
+### Big statement over an image
+
+Use `.glass-box` to overlay readable text on a background photo.
+The semi-transparent panel keeps text legible on busy images.
+:::
+
+
+## {.dark-slide background-color="#004357"}
+
+::: {.r-fit-text}
+"The horizon is wide —
+
+think globally,
+
+act locally."
+:::
+
+::: {.small .muted style="text-align:right;"}
+— HVL Profilmanual, 2017
+:::
+
+## Auto-Animate: Step 1 {auto-animate=true}
+
+Animation
+
+```r
+library(ggplot2)
+```
+
+## Auto-Animate: Step 2 {auto-animate=true}
+
+```r
+library(ggplot2)
+
+ggplot(mtcars, aes(x = wt, y = mpg)) +
+  geom_point(color = "#00AFBA", size = 3) +
+  labs(title = "Fuel efficiency vs weight",
+       x = "Weight (1000 lbs)", y = "Miles per gallon") +
+  theme_minimal()
+```
+
+Animation
+
+## Code Highlighting
+
+Step through code with `code-line-numbers`.
+
+```{r}
+#| code-line-numbers: "1|5|9-10"
+library(tidyverse)
+
+# Load and clean
+df <- mtcars |>
+  mutate(cyl = factor(cyl))
+
+# Summarise
+summary_df <- df |>
+  group_by(cyl) |>
+  summarise(mean_mpg = mean(mpg), .groups = "drop")
+```
+
+
+## Incremental Reveal
+
+::: {.incremental}
+- Start with one idea
+- Add the next — audience stays focused on what's new
+- Then the third point
+- Finally the conclusion
+:::
+
+The paragraph is already visible. Each click highlights
+[the most important phrase]{.fragment .hl-teal},
+then [a secondary point]{.fragment .hl-yellow}.
+
+::: {.fragment .fade-in}
+::: {.callout-note}
+## Note
+Fragment highlight classes: `.hl-teal`, `.hl-yellow`.
+Text stays visible; only the background animates in on each click.
+:::
+:::
+
+
+## Live R Output
+
+```{r}
+#| fig-height: 3.2
+library(ggplot2)
+
+ggplot(mtcars, aes(wt, mpg, colour = factor(cyl))) +
+  geom_point(size = 2.5, alpha = 0.85) +
+  scale_colour_manual(
+    values = c("4" = "#00AFBA", "6" = "#008AAF", "8" = "#004357"),
+    name = "Cylinders"
+  ) +
+  labs(x = "Weight (1 000 lbs)", y = "Miles per gallon") +
+  theme_minimal(base_size = 13)
+```
+
+
+## Speaker Notes
+
+Everything here is visible to the audience.
+
+::: {.notes}
+This text only appears in speaker view (press **S**).
+
+- Talking points, timing cues, references
+- You can use *markdown* in notes
+:::
+
+
+## Summary {.section-slide background-color="#00AFBA"}
+
+- Key finding one — [teal emphasis]{.teal}
+- Key finding two
+- Key finding three
+- Implications for practice / policy / future research
+
+
+## {.dark-slide background-color="#004357"}
+
+![](hvl_logo_en_neg.png){height="55px"}
+
+### Thank you
+
+::: {.ingress}
+Your Name · [your.name@hvl.no](mailto:your.name@hvl.no)
+:::
+
+::: {.small .muted}
+Department · Western Norway University of Applied Sciences · hvl.no
+:::
+
+
+<!-- ── CHEATSHEET ─────────────────────────────────────────────
+SLIDE BACKGROUNDS  (use Quarto attributes, not CSS)
+  {background-color="#00AFBA"}          any slide
+  {.section-slide background-color="#00AFBA"}   + white text
+  {.dark-slide    background-color="#004357"}   + teal/white text
+  title-slide-attributes:
+    data-background-color: "#004357"    title slide
+
+AUTO-ANIMATE
+  ## Slide A {auto-animate=true}
+  ## Slide B {auto-animate=true}
+  Elements with matching data-id morph between slides:
+    ::: {data-id="foo"} ... :::   (div, image wrapper, etc.)
+  Without data-id, RevealJS matches by element type + position.
+
+BACKGROUND IMAGE
+  ## Heading {background-image="file.jpg" background-size="cover"}
+
+CODE HIGHLIGHTING
+  ```{r}
+  #| code-line-numbers: "1|2-4|5"
+
+ABSOLUTE POSITIONING  (element written last = on top)
+  ::: {.absolute top="20%" right="5%" width="35%"} ... :::
+
+CUSTOM CLASSES
+  .ingress          lead sentence in teal DM Sans
+  .hvl-accent       sea-green left-border accent bar
+  .fact-box         highlighted information box
+  .glass-box        dark semi-transparent overlay for images
+  .big-number       large teal statistic
+  .big-label        small grey label beneath big-number
+  .teal .blue .muted  colour helpers
+  .vcenter          vertically centre a column
+  .small .tiny      font-size helpers
+
+FRAGMENT HIGHLIGHTS  (text visible throughout; bg animates in)
+  [phrase]{.fragment .hl-teal}
+  [phrase]{.fragment .hl-yellow}
+  [phrase]{.fragment .hl-blue}
+─────────────────────────────────────────────────────────── -->

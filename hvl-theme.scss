@@ -1,0 +1,348 @@
+/*=============================================================
+  HVL RevealJS Theme
+  Høgskulen på Vestlandet / Western Norway University of Applied Sciences
+  Based on Visuell identitet / Profilmanual 2017
+
+  Fonts (Google Fonts, open source):
+    Headings : DM Sans        — close match to NB Akademie Std
+    Body     : Lora           — close match to Lyon Text
+    Code     : JetBrains Mono
+  To swap in the official fonts, replace the @import below with
+  @font-face declarations and update the two font variables.
+=============================================================*/
+
+
+/*-- scss:defaults --*/
+
+// HVL Signal Colors (Signalfarge)
+$hvl-sea-green: #00AFBA; // Sjøgrønn — primary brand color
+$hvl-green: #96DE99;
+$hvl-light-blue: #64D0DF;
+$hvl-yellow: #F9DE45;
+$hvl-orange: #EB6851;
+
+// HVL Support Colors (Støttefarge)
+$hvl-dark-blue-1: #008AAF;
+$hvl-dark-teal: #009382;
+$hvl-dark-blue-2: #004357; // darkest — backgrounds and body text
+$hvl-dark-red: #6D2439;
+
+// HVL Additional Tones (Tilleggstoner)
+$hvl-gray-dark: #8F8A83;
+$hvl-gray-light: #D2CDC8;
+$hvl-blue-gray-med: #ACB7B2;
+$hvl-blue-gray-light: #C9D5DA;
+
+// Quarto/RevealJS theme variables
+$body-bg: #FFFFFF;
+$body-color: $hvl-dark-blue-2;
+$link-color: $hvl-dark-blue-1;
+$selection-bg: $hvl-sea-green;
+$selection-color: #FFFFFF;
+
+$presentation-heading-color: $hvl-dark-blue-2;
+$presentation-heading-font: 'DM Sans', Arial, sans-serif;
+$presentation-heading-font-weight: 700;
+$presentation-heading-line-height: 1.15;
+$presentation-heading-letter-spacing: -0.02em;
+
+$font-family-sans-serif: 'Lora', Georgia, serif;
+$font-family-monospace: 'JetBrains Mono', 'Consolas', monospace;
+
+$presentation-font-size-root: 36px;
+$presentation-h1-font-size: 2.2em;
+$presentation-h2-font-size: 1.45em;
+$presentation-h3-font-size: 1.1em;
+$presentation-h4-font-size: 0.95em;
+
+$code-color: $hvl-dark-blue-1;
+$code-block-font-size: 0.65em;
+
+
+/*-- scss:rules --*/
+
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,700;1,9..40,300&family=Lora:ital,wght@0,400;0,600;1,400&family=JetBrains+Mono:wght@400&display=swap');
+
+// ── Base typography ───────────────────────────────────────────
+.reveal .slides section {
+  font-family: 'Lora', Georgia, serif;
+  text-align: left;
+}
+
+.reveal h1,
+.reveal h2,
+.reveal h3,
+.reveal h4 {
+  font-family: 'DM Sans', Arial, sans-serif;
+  letter-spacing: -0.02em;
+}
+
+// Teal underline on slide headings — mirrors the brand horizontal rule
+.reveal h2 {
+  border-bottom: 2px solid $hvl-sea-green;
+  padding-bottom: 0.18em;
+  margin-bottom: 0.5em;
+}
+
+// ── Title slide ───────────────────────────────────────────────
+// Background: set via  title-slide-attributes: data-background-color
+// in the YAML (feeds RevealJS's full-bleed background system).
+#title-slide {
+  text-align: left;
+  padding: 2em 2.5em;
+
+  &::before {
+    // teal accent bar
+    content: '';
+    display: block;
+    width: 70px;
+    height: 4px;
+    background-color: $hvl-sea-green;
+    margin-bottom: 1.8em;
+  }
+
+  .title {
+    color: #FFFFFF;
+    font-size: 2.0em;
+    font-weight: 700;
+    line-height: 1.2;
+  }
+
+  .subtitle {
+    color: $hvl-sea-green;
+    font-size: 1.05em;
+    font-weight: 300;
+    margin-bottom: 1.6em;
+  }
+
+  .author {
+    color: rgba(255, 255, 255, 0.85);
+    font-size: 0.72em;
+  }
+
+  // Quarto wraps author/institute in a flex container — override alignment
+  .quarto-title-authors {
+    justify-content: flex-start !important;
+    padding-left: 0 !important;
+  }
+
+  .quarto-title-author {
+    padding-left: 0 !important;
+    text-align: left !important;
+  }
+
+  .quarto-title-author-name {
+    color: rgba(255, 255, 255, 0.85);
+    font-size: 0.72em;
+    font-weight: 300;
+  }
+
+  .quarto-title-affiliation,
+  .quarto-title-affiliation p {
+    color: rgba(255, 255, 255, 0.55);
+    font-size: 0.65em;
+    font-weight: 300;
+    text-align: left !important;
+  }
+
+  .author,
+  p.author,
+  .institute,
+  p.institute,
+  .date {
+    color: rgba(255, 255, 255, 0.55);
+    font-size: 0.65em;
+    font-weight: 300;
+    text-align: left !important;
+  }
+
+  .author,
+  p.author {
+    color: rgba(255, 255, 255, 0.85);
+    font-size: 0.72em;
+  }
+}
+
+// ── Section / divider slides ──────────────────────────────────
+// Background: set via {background-color="..."} on the slide header.
+// These rules only handle text on top of that background.
+.reveal .slides section.section-slide {
+  h2 {
+    color: #FFFFFF;
+    border-bottom-color: rgba(255, 255, 255, 0.35);
+    font-size: 2.0em;
+  }
+
+  p,
+  li {
+    color: rgba(255, 255, 255, 0.92);
+    font-family: 'DM Sans', Arial, sans-serif;
+    font-weight: 300;
+  }
+}
+
+.reveal .slides section.dark-slide {
+  h2 {
+    color: $hvl-sea-green;
+    border-bottom-color: rgba($hvl-sea-green, 0.35);
+  }
+
+  h3 {
+    color: rgba(255, 255, 255, 0.85);
+  }
+
+  p,
+  li {
+    color: rgba(255, 255, 255, 0.82);
+  }
+}
+
+// ── Progress bar ──────────────────────────────────────────────
+.reveal .progress span {
+  background-color: $hvl-sea-green;
+}
+
+// ── Blockquote ────────────────────────────────────────────────
+.reveal blockquote {
+  border-left: 4px solid $hvl-sea-green;
+  background-color: transparent;
+  box-shadow: none;
+}
+
+// ── Table — brand header only ─────────────────────────────────
+.reveal table th {
+  background-color: $hvl-dark-blue-2;
+  color: #FFFFFF;
+  text-align: left;
+  border: none;
+}
+
+// ── Inline code ───────────────────────────────────────────────
+.reveal code {
+  background-color: rgba($hvl-blue-gray-light, 0.5);
+  padding: 0.1em 0.3em;
+  border-radius: 3px;
+}
+
+// ── Custom classes ────────────────────────────────────────────
+
+// Ingress / lead sentence
+.ingress {
+  font-family: 'DM Sans', Arial, sans-serif;
+  font-size: 1.15em;
+  font-weight: 300;
+  color: $hvl-sea-green;
+  line-height: 1.45;
+}
+
+// Left accent bar
+.hvl-accent {
+  border-left: 4px solid $hvl-sea-green;
+  padding-left: 0.9em;
+}
+
+// Colour helpers
+.teal {
+  color: $hvl-sea-green;
+}
+
+.blue {
+  color: $hvl-dark-blue-1;
+}
+
+.muted {
+  color: $hvl-gray-dark;
+}
+
+// Large statistic
+.big-number {
+  font-family: 'DM Sans', Arial, sans-serif;
+  font-size: 3.2em;
+  font-weight: 700;
+  color: $hvl-sea-green;
+  line-height: 1;
+  display: block;
+}
+
+.big-label {
+  font-family: 'DM Sans', Arial, sans-serif;
+  font-size: 0.78em;
+  font-weight: 300;
+  color: $hvl-gray-dark;
+  display: block;
+  margin-top: 0.2em;
+}
+
+// Highlighted information box
+.fact-box {
+  background-color: rgba($hvl-blue-gray-light, 0.45);
+  border-left: 4px solid $hvl-sea-green;
+  padding: 0.75em 1.1em;
+  border-radius: 0 4px 4px 0;
+  font-family: 'DM Sans', Arial, sans-serif;
+  font-size: 0.82em;
+}
+
+// Semi-transparent overlay for use on background images
+.glass-box {
+  background: rgba($hvl-dark-blue-2, 0.78);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border-radius: 6px;
+  padding: 1em 1.5em;
+  color: #FFFFFF;
+
+  h3 {
+    color: $hvl-sea-green;
+    border-bottom-color: rgba($hvl-sea-green, 0.4);
+  }
+
+  p,
+  li {
+    color: rgba(255, 255, 255, 0.88);
+  }
+}
+
+// Utilities
+.vcenter {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  height: 100%;
+}
+
+.small {
+  font-size: 0.72em;
+}
+
+.tiny {
+  font-size: 0.58em;
+}
+
+.reveal .r-fit-text {
+  text-align: center;
+}
+
+// ── Text-background highlight fragments ───────────────────────
+// Usage: [phrase]{.fragment .hl-teal}
+// opacity/visibility: unset keeps text visible before the fragment fires.
+@mixin hl-fragment($color) {
+  opacity: unset;
+  visibility: unset;
+  border-radius: 3px;
+  padding: 0.05em 0.2em;
+  transition: background-color 0.3s ease;
+
+  &.visible,
+  &.current-fragment {
+    background-color: $color;
+  }
+}
+
+.reveal .slides section .fragment.hl-teal {
+  @include hl-fragment($hvl-sea-green);
+}
+
+.reveal .slides section .fragment.hl-yellow {
+  @include hl-fragment($hvl-yellow);
+}
