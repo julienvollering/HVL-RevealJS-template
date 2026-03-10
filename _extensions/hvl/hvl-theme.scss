@@ -197,6 +197,35 @@ $code-block-font-size: 0.65em;
   }
 }
 
+// ── Footer ────────────────────────────────────────────────────
+.reveal .footer {
+  color: $hvl-gray-dark;
+
+  a {
+    color: $hvl-sea-green;
+    text-decoration: none;
+
+    &:hover {
+      color: $hvl-dark-blue-1;
+      text-decoration: underline;
+    }
+  }
+}
+
+// ── Slide number ───────────────────────────────────────────────
+.reveal .slide-number {
+  color: $hvl-gray-dark;
+}
+
+// ── Links ─────────────────────────────────────────────────────
+.reveal a {
+  color: $hvl-sea-green;
+
+  &:hover {
+    color: $hvl-dark-blue-1;
+  }
+}
+
 // ── Progress bar ──────────────────────────────────────────────
 .reveal .progress span {
   background-color: $hvl-sea-green;
