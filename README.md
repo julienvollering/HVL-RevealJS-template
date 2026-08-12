@@ -10,7 +10,7 @@ The repository ships three extensions:
 |---|---|
 | `hvl-brand` | HVL colours, fonts and logos as a [`brand.yml`](https://quarto.org/docs/authoring/brand.html) — shared by all formats |
 | `hvl` | `hvl-revealjs` presentation format |
-| `hvl-report` | `hvl-typst` PDF report format |
+| `hvl-report` | `hvl-report-typst` PDF report format |
 
 Requires Quarto 1.6 or newer.
 
@@ -40,8 +40,12 @@ format:
 
 ```yaml
 format:
-  hvl-typst: default      # PDF report
+  hvl-report-typst: default   # PDF report
 ```
+
+The report format is named after its extension directory, so it is
+`hvl-report-typst` and not `hvl-typst`. Quarto does not complain about an unknown
+extension prefix — `hvl-typst` renders, silently, as plain unstyled Typst.
 
 Render either with `quarto render <file>.qmd`, or the Render button in RStudio
 / VS Code.
@@ -100,17 +104,42 @@ See `presentation.qmd` for working examples of all classes and layouts.
 ## Reports
 
 `report.qmd` renders to PDF via Typst. Colours, fonts, headings, links and code
-styling all come from the brand — `hvl-report` itself is deliberately almost
-empty, with no page geometry, title page or headers imposed and no Typst
-template to maintain.
+styling all come from the brand. `hvl-report` adds only what the brand cannot
+express — A4 paper, small italic figure and table captions, and looser vertical
+rhythm (`linestretch: 1.15`, extra space between paragraphs, headings and
+figures). It imposes no title page or running headers, and has no Typst template
+to maintain.
 
-Add a logo by naming one of the brand's logo resources:
+The starter document is laid out as title page → abstract → table of contents →
+foreword → numbered sections. The abstract and foreword are ordinary
+`{.unnumbered}` headings, and the contents list is emitted by a small raw Typst
+block rather than by `toc: true` — that is what lets the abstract come first.
+Delete any of the four and the rest still work.
+
+### Logos
+
+Name one of the brand's logo resources:
 
 ```yaml
-logo: hvl-en    # or hvl-nb, hvl-en-neg, hvl-nb-neg
+logo: hvl-en    # or hvl-nb, hvl-en-neg, hvl-nb-neg, hvl-mark, hvl-mark-neg
 ```
 
-The logo repeats on every page. Omit `logo:` for an unbranded page header.
+Quarto places it as a page background, so it repeats on every page. `report.qmd`
+therefore uses the full logo for `logo:` and swaps in the bare V mark
+(`hvl-mark`) from page 2 onward, with a raw Typst block right after the first
+page break:
+
+```typst
+#set page(background: align(left + top, box(
+  inset: 0.75in,
+  image("/" + brand-logo-images.hvl-mark.path, width: 0.45in,
+        alt: brand-logo-images.hvl-mark.alt),
+)))
+```
+
+`brand-logo-images` is a dictionary Quarto builds from `brand.yml` with the paths
+already resolved, so this works both in a clone of this repo and after
+`quarto add`. Omit `logo:` altogether for unbranded pages.
 
 Typst downloads DM Sans, Lora and JetBrains Mono from Google Fonts on first
 render and caches them under `.quarto/typst/fonts`, so no fonts need to be
@@ -138,9 +167,10 @@ families, is in `HVLStyleGuideDictionary.R`.
 
 Set `lang: en` or `lang: nb`, then pick the matching logo by hand — this is not
 automatic. In presentations that means `title-slide-attributes` and the closing
-slide; in reports it means the `logo:` key. English logos are `hvl-en` /
-`hvl_logo_engelsk.png`, Bokmål are `hvl-nb` / `hvl_logo.png`, with `_neg`
-variants for dark backgrounds.
+slide; in reports it means the `logo:` key, plus the `#outline(title: ...)` in
+the contents block. English logos are `hvl-en` / `hvl_logo_engelsk.png`, Bokmål
+are `hvl-nb` / `hvl_logo.png`, with `_neg` variants for dark backgrounds. The V
+mark (`hvl-mark`) carries no wordmark and needs no swap.
 
 ## Fonts
 

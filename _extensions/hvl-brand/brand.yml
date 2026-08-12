@@ -102,3 +102,15 @@ logo:
     hvl-en-neg:
       path: hvl_logo_en_neg.png
       alt: Western Norway University of Applied Sciences
+    # The bare V mark, language-neutral. Used on continuation pages of a report,
+    # where the full logo belongs on the title page only. Listing it here is not
+    # only for `logo:` and the shortcode: it also puts its path into the
+    # `brand-logo-images` dictionary that Quarto emits into the Typst source, and
+    # that is the only install-independent way to name a brand asset from raw
+    # Typst. See the page-background block in report.qmd.
+    hvl-mark:
+      path: V.svg
+      alt: Høgskulen på Vestlandet
+    hvl-mark-neg:
+      path: Vneg.svg
+      alt: Høgskulen på Vestlandet

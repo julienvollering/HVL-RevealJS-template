@@ -7,9 +7,12 @@ date-format: "D MMMM YYYY"
 lang: en  # or: nb — set logo to hvl-nb below to match
 
 format:
-  hvl-typst: default
+  hvl-report-typst:
+    number-sections: true
 
-# Named logo resource from the HVL brand. English: hvl-en · Bokmål: hvl-nb
+# Named logo resource from the HVL brand, placed by Quarto as a page background.
+# English: hvl-en · Bokmål: hvl-nb. This is the *title page* logo; the raw Typst
+# block below swaps it for the bare V mark from page 2 onward.
 logo: hvl-en
 
 execute:
@@ -18,22 +21,95 @@ execute:
   message: false
 ---
 
-## Introduction
+<!-- Page 1 is the title page. Quarto places the title block as a parent-scope
+     float, so it lands on page 1 whatever follows; this break only keeps body
+     text off that page. Everything below therefore starts on page 2. -->
+
+{{< pagebreak >}}
+
+<!-- The full logo named in `logo:` above repeats on every page, because that is
+     what Quarto does with it — it becomes `page.background`. Re-setting the
+     background here, after the break so page 1 is untouched, swaps it for the
+     bare V mark from page 2 onward.
+
+     `brand-logo-images` is a dictionary Quarto emits into the Typst source from
+     brand.yml, with each path already resolved for wherever the brand extension
+     actually sits. Going through it is what makes this work both in a clone
+     (_extensions/hvl-brand/) and after `quarto add` (_extensions/<org>/hvl-brand/);
+     a written-out path would work in exactly one of the two. The leading "/" makes
+     it project-root-relative, and the geometry is copied from Quarto's own emitted
+     call so the V lands exactly where the V inside the title-page logo does. -->
+
+```{=typst}
+#set page(background: align(left + top, box(
+  inset: 0.75in,
+  image(
+    "/" + brand-logo-images.hvl-mark.path,
+    width: 0.45in,
+    alt: brand-logo-images.hvl-mark.alt,
+  ),
+)))
+```
+
+# Abstract {.unnumbered}
+
+Summarise the work in a paragraph or two: what question was addressed, what was
+done, and what came out of it. Write it so it stands on its own — a reader who
+gets no further than this page should still know the result.
+
+A heading is used here rather than the YAML `abstract:` key on purpose. That key
+renders the abstract inside the title block on page 1, where it competes with the
+title; as a section it gets a page of its own, ahead of the table of contents.
+
+{{< pagebreak >}}
+
+<!-- The table of contents, by hand. This is what article() would have emitted for
+     `toc: true` — same depth and indent — but placed here, so the abstract can come
+     first. Keep `toc: false` in the format (it is the extension default) or the
+     document gets two of them. Translate the title with `lang: nb`:
+     Innhaldsliste (nn) / Innholdsfortegnelse (nb). -->
+
+```{=typst}
+#block(below: 2em)[
+  #outline(title: [Table of contents], depth: 3, indent: 1.5em)
+]
+```
+
+{{< pagebreak >}}
+
+# Foreword {.unnumbered}
+
+Context that is not part of the work itself: who commissioned it, which project
+or course it belongs to, who contributed, and any acknowledgements. Sign and date
+it if that is the convention in your field.
+
+If AI tools were used, say so here, along with what they were used for and who
+takes responsibility for the content.
+
+*Your Name, Place, 1 January 2026*
+
+{{< pagebreak >}}
+
+# Introduction
+
+State the problem, why it matters, and what this report sets out to do. Sections
+are numbered (`number-sections: true`); the abstract and foreword above are marked
+`{.unnumbered}` so they stay outside the numbering.
+
+Everything from here on is a working demonstration of the format — replace it
+with your own sections.
+
+# Working with the palette in R
 
 This report inherits HVL colours, fonts, headings and link styling from
-`_extensions/hvl-brand/brand.yml` — the same brand file that styles the
-RevealJS deck in `presentation.qmd`. Nothing about the HVL visual identity is
-restated in the report format itself.
+`_extensions/hvl-brand/brand.yml` — the same brand file that styles the RevealJS
+deck in `presentation.qmd`. Body text is set in Lora, a close open-source match
+to the profile font Lyon Text; headings use DM Sans in place of NB Akademie Std.
+Typst downloads both from Google Fonts on first render and caches them, so neither
+font needs to be installed locally.
 
-Body text is set in Lora, a close open-source match to the profile font Lyon
-Text. Headings use DM Sans in place of NB Akademie Std. Typst downloads both
-from Google Fonts on first render and caches them, so neither font needs to be
-installed locally.
-
-## Working with the palette in R
-
-Because the brand file is plain YAML, R can read the palette directly rather
-than repeating hex codes. This keeps figures in step with the theme.
+Because the brand file is plain YAML, R can read the palette directly rather than
+repeating hex codes. This keeps figures in step with the theme.
 
 ```{r}
 #| label: palette
@@ -46,11 +122,16 @@ hvl <- yaml::read_yaml(brand_path)$color$palette
 unlist(hvl[c("sea-green", "dark-blue-1", "dark-blue-2")])
 ```
 
+# Figures and tables
+
+Captions are set small and italic, figures and tables alike, so that a long
+explanatory caption reads as a caption and not as another paragraph of body text.
+
 ## Figures
 
 ```{r}
 #| label: fig-mpg
-#| fig-cap: "Fuel efficiency against weight, coloured by cylinder count."
+#| fig-cap: "Fuel efficiency against weight, coloured by cylinder count. Captions carry the explanation a reader needs to make sense of the figure without going back to the running text, which is why they are often several sentences long."
 #| fig-height: 3.2
 library(ggplot2)
 
@@ -75,7 +156,7 @@ ggplot(mtcars, aes(wt, mpg, colour = factor(cyl))) +
 
 : Illustrative figures only. {#tbl-campus}
 
-## Cross-references and links
+# Cross-references and links
 
 @fig-mpg and @tbl-campus show the default Typst reference styling. Links such
 as [hvl.no](https://www.hvl.no) take their colour from the brand's `primary`.
@@ -88,10 +169,15 @@ summary_df <- mtcars |>
   dplyr::summarise(mean_mpg = mean(mpg))
 ```
 
-## Extending this format
+# Extending this format
 
-`_extensions/hvl-report/_extension.yml` is intentionally almost empty. If you
-later want an HVL title page, running headers or specific page geometry, that
-is where a custom `.typ` template would be wired in — brand values are readable
-from Typst raw blocks as `brand-color.primary` and friends, so this brand file
-stays valid.
+`_extensions/hvl-report/_extension.yml` holds the whole format: a handful of
+Typst show rules for captions and vertical rhythm, inline in the YAML, and
+nothing else. There is no `.typ` template to maintain. Add document-specific
+rules the way the page background above does it, in a ```` ```{=typst} ````
+block, or move them into the extension if every HVL report should have them.
+
+Brand values are readable from Typst as `brand-color.primary` and friends —
+but only in the document body. Quarto inserts `include-in-header` *above* the
+point where it defines `brand-color`, so an extension rule that names one fails
+to compile with "unknown variable: brand-color"; write the colour out instead.

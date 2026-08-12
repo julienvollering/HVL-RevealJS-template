@@ -1,12 +1,54 @@
 title: HVL Report
 author: julienvollering
-version: 1.0.0
+version: 1.1.0
 quarto-required: ">=1.6.0"
 contributes:
   formats:
     typst:
-      # Deliberately minimal. Colours, fonts, headings, links and code styling
-      # all come from _extensions/hvl-brand/brand.yml — nothing is restated here.
-      # No page geometry, title page or headers/footers are imposed, so this
-      # stays pure YAML with no .typ template to maintain.
+      # Colours, fonts, headings, links and code styling all come from
+      # _extensions/hvl-brand/brand.yml — none of that is restated here. What is
+      # here is the little that brand.yml cannot express: paper size, caption
+      # styling and vertical rhythm. Still no title page, no running headers and
+      # no .typ template — the show rules below are inline YAML.
+
+      # Typst defaults to us-letter. HVL is Norwegian; A4 is the paper reports get
+      # printed on here.
+      papersize: a4
+
+      # The document emits its own outline, so that an abstract can precede it.
+      # The template renders a toc: true outline inside article(), between the
+      # title block and the body, where nothing can be placed in front of it.
+      # See report.qmd.
       toc: false
+
+      # Breathing room, part 1: line spacing. linestretch multiplies Typst's
+      # 0.65em default leading, so 1.15 gives 0.75em.
+      linestretch: 1.15
+
+      include-in-header:
+        text: |
+          // Breathing room, part 2: space *between* elements. Typst's defaults are
+          // tight for a report — 1.2em between paragraphs and 1.4em/0.55em around a
+          // heading — which reads as one undifferentiated column once sections are
+          // short. Written as show-set rules because `above`/`below` are fields of
+          // the block a heading or figure lays itself out in, not of the element.
+          #set par(spacing: 1.4em)
+          #show heading: set block(above: 2em, below: 1em)
+          #show figure: set block(above: 1.8em, below: 1.8em)
+
+          // Small italic captions, figures and tables alike. figure.caption carries
+          // no kind to select on, so one unscoped rule covers both — which is the
+          // point: captions are often long explanatory paragraphs, and setting them
+          // off from the body is exactly what this does. Sized in em so it tracks
+          // the document's `fontsize`.
+          #show figure.caption: set text(size: 0.85em, style: "italic")
+
+          // Not on by default, but the rule to reach for when a report has appendix
+          // tables longer than a page: without it, such a table is moved whole to the
+          // next page and strands its heading on a near-empty one. Left off because it
+          // also splits *short* tables whenever they land near a page break, which is
+          // the more common case in a short report. Note the kind is Quarto's own
+          // float kind, NOT Typst's built-in `table` — a rule written as
+          // figure.where(kind: table) compiles and then never matches anything.
+          //
+          //   #show figure.where(kind: "quarto-float-tbl"): set block(breakable: true)
